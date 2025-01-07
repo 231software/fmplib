@@ -66,11 +66,68 @@ export class FMPFile{
         }
     }
     /**
-     * 复制一个文件和文件夹
+     * 复制一个文件和文件夹  
+     * 
+     * 示例1：
+     * ```ts
+     * //将test.txt从folder1中移动到folder2中
+     * File.copy("folder1/test.txt","folder2/test.txt")
+     * ```
+     * 示例2：
+     * ```ts
+     * //工作目录位于 上级目录/folder1中
+     * //移动前：
+     * //上级目录
+     * // - folder
+     * //   - test.txt
+     * // - folder1
+     * //   - folder2
+     * File.copy("test.txt","../folder1/folder2/text.txt")
+     * //移动后：
+     * //上级目录
+     * // - folder
+     * // - folder1
+     * //   - folder2
+     * //     - test.txt
+     * ```
+     * 示例3（重命名）：
+     * ```ts
+     * //将当前文件夹中的test.txt重命名为options.txt
+     * File.copy("test.txt","options.txt")
+     * ```
+     * 示例4（移动和重命名一次性同时做完）：
+     * ```ts
+     * //工作目录位于 上级目录/folder1中
+     * //还需要将test.txt重命名为options.txt
+     * //移动前：
+     * //上级目录
+     * // - folder
+     * //   - test.txt
+     * // - folder1
+     * //   - folder2
+     * File.copy("test.txt","../folder1/folder2/options.txt")
+     * //移动后：
+     * //上级目录
+     * // - folder
+     * // - folder1
+     * //   - folder2
+     * //     - options.txt
+     * ```
      * @param source 要被复制的文件名文件夹
      * @param destination 要复制到的目标
      */
-    static copy(source:string,destination:string,options:any={}){      
+    static copy(source:string,destination:string,options:{
+        /**如果文件或文件夹同名，则跳过 */
+        skipSameName?:boolean,
+        /**如果文件同名则跳过，对文件夹行为无影响 */
+        skipSameNameFiles?:boolean,
+        /**替换同名文件，对文件夹行为无影响 */
+        replaceFiles?:boolean,
+        /**同名文件夹自动合并 */
+        merge?:true,
+        /**替换同名文件夹 */
+        replaceFolder?:true
+    }={}){      
         let errorText="Error(s) occured while copying files!"
         try{
             //检查是否已存在同名文件
@@ -204,8 +261,20 @@ export class FMPFile{
      * 
      * @param path 文件路径
      * @param target 重命名后的文件名（路径）
+     * @param options 移动文件的行为设置
      */
-    static rename(path:string,target:string,options:any={}){
+    static rename(path:string,target:string,options:{
+        /**如果文件或文件夹同名，则跳过 */
+        skipSameName?:boolean,
+        /**如果文件同名则跳过，对文件夹行为无影响 */
+        skipSameNameFiles?:boolean,
+        /**替换同名文件，对文件夹行为无影响 */
+        replaceFiles?:boolean,
+        /**同名文件夹自动合并 */
+        merge?:true,
+        /**替换同名文件夹 */
+        replaceFolder?:true
+    }={}){
         let errorText="Error(s) occured while renaming files!"
         try{
             if(FMPFile.isFile(path)){

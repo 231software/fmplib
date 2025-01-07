@@ -121,8 +121,11 @@ interface FMPSQLite3Constraint{
     primary_key?:boolean
     /**确保列中的值满足特定的条件。 */
     check?:{
+        /**左值 */
         left:string,
+        /**运算符 */
         operator:FMPSQLComparisonOperators,
+        /**右值 */
         right:string,
     },
     /**为列设置默认值。 */
