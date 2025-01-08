@@ -107,4 +107,11 @@ export class FMPPlayer{
     static getOnlinePlayer(providedID:string):FMPPlayer|undefined{
         return undefined
     }
+    /**
+     * 获取服务器中所有在线玩家
+     * @returns 所有玩家
+     */
+    static getAllOnline():FMPPlayer[]{
+        return []
+    }
 }
