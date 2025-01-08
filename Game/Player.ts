@@ -43,6 +43,14 @@ export class FMPPlayer{
         return FMPInternalPermission.Any
     }
     /**
+     * 判断当前玩家是否在线。  
+     * 在很多插件加载器中，尝试对已下线的玩家读取属性或执行方法都会导致报错。在需要对一个长期保存的玩家进行操作时，建议在操作前检查其是否在线，并对其不在线的情况采取措施。
+     * @returns 玩家是否在线
+     */
+    isOnline():boolean{
+        return true
+    }
+    /**
      * 给予玩家一个物品
      * @param item 要给予玩家的物品
      * @returns 是否成功给予玩家
