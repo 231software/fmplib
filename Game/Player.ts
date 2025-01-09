@@ -51,6 +51,14 @@ export class FMPPlayer{
         return true
     }
     /**
+     * 判断玩家是否是模拟玩家，模拟玩家指非真正客户端连接在服务端产生的玩家  
+     * 主要有模拟玩家  
+     * @returns 当前玩家是否是模拟玩家
+     */
+    isSimulated():boolean{
+        return true
+    }
+    /**
      * 给予玩家一个物品
      * @param item 要给予玩家的物品
      * @returns 是否成功给予玩家
