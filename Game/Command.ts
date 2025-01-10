@@ -101,7 +101,7 @@ export function FMPCommandFailReasonText(reason:FMPCommandFailReason):string{
 /**
  * Minecraft格式的命令
  */
-export abstract class FMPCommand{
+export class FMPCommand{
     name:string;
     /** 
      */
@@ -180,12 +180,13 @@ export abstract class FMPCommand{
      */
     constructor(
         name:string,
-        description:string|undefined=undefined,
-        usageMessage:string|undefined=undefined,
         args:Array<FMPCommandParam>=[],
         overloads:Array<Array<string>>=[[]],
         permission:FMPInternalPermission=FMPInternalPermission.GameMasters,
         aliases:Array<string>=[],
+        description:string|undefined=undefined,
+        usageMessage:string|undefined=undefined,
+        callback:(result:FMPCommandResult)=>void,
         flag:any=undefined
     ){
         this.name=name;
@@ -196,12 +197,12 @@ export abstract class FMPCommand{
         this.permission=permission;
         this.aliases=aliases;
         this.flag=flag;
-    }
-    abstract callback(result:FMPCommandResult):void
+    } 
     /**
      * 注册命令
      * @param command 要注册的命令对象，建议现场new一个传进去
      * @returns 命令是否注册成功
+     * @deprecated
      */
     static register<T extends FMPCommand>(command:T):boolean{
         return false;
