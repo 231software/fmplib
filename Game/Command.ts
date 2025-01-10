@@ -182,11 +182,11 @@ export class FMPCommand{
         name:string,
         args:Array<FMPCommandParam>=[],
         overloads:Array<Array<string>>=[[]],
+        callback:(result:FMPCommandResult)=>void,
         permission:FMPInternalPermission=FMPInternalPermission.GameMasters,
         aliases:Array<string>=[],
         description:string|undefined=undefined,
         usageMessage:string|undefined=undefined,
-        callback:(result:FMPCommandResult)=>void,
         flag:any=undefined
     ){
         this.name=name;
