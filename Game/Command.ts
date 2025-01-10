@@ -116,6 +116,7 @@ export class FMPCommand{
     /**
      */
     permission:FMPInternalPermission;
+    callback:(result:FMPCommandResult)=>void
     /**
      */
     aliases:Array<string>;
@@ -197,6 +198,7 @@ export class FMPCommand{
         this.permission=permission;
         this.aliases=aliases;
         this.flag=flag;
+        this.callback=callback;
     } 
     /**
      * 注册命令
