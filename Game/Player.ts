@@ -82,6 +82,14 @@ export class FMPPlayer{
         return false;
     }
     /**
+     * 通过该玩家执行一条命令
+     * @param cmd 要执行的命令
+     * @returns 是否执行成功
+     */
+    runCmd(cmd:string):boolean{
+        return false
+    }
+    /**
      * 调用加载器或插件内数据库通过玩家名查询其UUID
      * @param name 玩家游戏名
      * @returns 玩家UUID
