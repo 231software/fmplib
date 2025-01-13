@@ -349,6 +349,9 @@ export class FMPSQLite3{
         }
         return result
     }
+    newColumn(tableName:string,column:FMPSQLite3Column):void{
+        this.runSync(`ALTER  TABLE ${tableName} ADD COLUMN ${column.name} ${column.data_type.toStatement()} `)
+    }
 }
 
 export class FMPSQLSingleArrayTable{
