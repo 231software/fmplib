@@ -53,6 +53,19 @@ export {
     FMPDisableEvent as DisableEvent
 } from "./Events/Process.js"
 export {FMPPlayerToggleSneakEvent as PlayerToggleSneakEvent,FMPPlayerJoinEvent as PlayerJoinEvent} from "./Events/Player.js"
+export {
+    FMPsetMotd,
+    FMPgetMCType,
+    FMPgetMCVersion,
+    FMPgetMaxPlayers,
+    FMPgetPluginLoaderName,
+    FMPgetProtocol,
+    FMPgetServerTime,
+    FMPgetWeather,
+    FMPsetMaxPlayers,
+    FMPsetServerTime,
+    FMPsetWeather
+} from "./Game/Server.js"
 
 export{
     SQLite3,
