@@ -54,6 +54,9 @@ export {
 } from "./Events/Process.js"
 export {FMPPlayerToggleSneakEvent as PlayerToggleSneakEvent,FMPPlayerJoinEvent as PlayerJoinEvent} from "./Events/Player.js"
 export {
+    TickEvent
+} from "./Events/Server.js"
+export {
     FMPsetMotd,
     FMPgetMCType,
     FMPgetMCVersion,
