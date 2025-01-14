@@ -1,8 +1,8 @@
-export class TickEvent{
+export class FMPTickEvent{
     constructor(){
 
     }
-    static on(callback:(event:TickEvent)=>boolean|void){
+    static on(callback:(event:FMPTickEvent)=>boolean|void){
 
     }
 }
