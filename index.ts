@@ -57,17 +57,17 @@ export {
     FMPTickEvent as TickEvent
 } from "./Events/Server.js"
 export {
-    FMPsetMotd,
-    FMPgetMCType,
-    FMPgetMCVersion,
-    FMPgetMaxPlayers,
-    FMPgetPluginLoaderName,
-    FMPgetProtocol,
-    FMPgetServerTime,
-    FMPgetWeather,
-    FMPsetMaxPlayers,
-    FMPsetServerTime,
-    FMPsetWeather
+    FMPsetMotd as setMotd,
+    FMPgetMCType as getMCType,
+    FMPgetMCVersion as getMCVersion,
+    FMPgetMaxPlayers as getMaxPlayers,
+    FMPgetPluginLoaderName as getPluginLoaderName,
+    FMPgetProtocol as getProtocol,
+    FMPgetServerTime as getServerTime,
+    FMPgetWeather as getWeather,
+    FMPsetMaxPlayers as setMaxPlayers,
+    FMPsetServerTime as setServerTime,
+    FMPsetWeather as setWeather
 } from "./Game/Server.js"
 
 export{
