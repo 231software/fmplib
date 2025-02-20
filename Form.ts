@@ -147,7 +147,7 @@ export enum FMPSimpleFormButtonType{
  * 所以如你所见，满月平台的表单会话是单独的一个类  
  */
 export class FMPSimpleFormSession extends FMPFormSession{
-    form:FMPSimpleForm
+    declare form:FMPSimpleForm
     /**
      * 
      * @param form 当前会话对应的表单
@@ -155,6 +155,8 @@ export class FMPSimpleFormSession extends FMPFormSession{
      * 否则就传入当前会话对应的玩家  
      * 如果是跳转过来的但是不想返回，直接传入玩家即可。通常从跳转过来的会话中取出玩家传入即可
      */
+    constructor(form:FMPSimpleForm,lastSession:FMPSimpleFormSession|FMPCustomFormSession|FMPModalFormSession)
+    constructor(form:FMPSimpleForm,player:FMPPlayer)
     constructor(form:FMPSimpleForm,lastSessionOrPlayer:FMPSimpleFormSession|FMPCustomFormSession|FMPModalFormSession|FMPPlayer){
         /**为了防止后续对原始表单的修改导致全局的表彰发生变化，就在这里把原表单的按钮列表拷贝一份*/
         const originalFormButtons:FMPSimpleFormButton[]=[];
@@ -235,12 +237,14 @@ export class FMPCustomForm extends FMPForm{
 }
 /**和简单表单一样，自定义表单也需要一个会话才能发送 */
 export class FMPCustomFormSession extends FMPFormSession{
-    form:FMPCustomForm
+    declare form:FMPCustomForm
     /**
      * 
      * @param form 当前表单会话绑定的对象绑定的表单
      * @param lastSessionOrPlayer 跳转到当前表单的表单会话，如果不是由其他表单跳转过来的就写undefined
      */
+    constructor(form:FMPCustomForm,lastSession:FMPSimpleFormSession|FMPCustomFormSession|FMPModalFormSession)
+    constructor(form:FMPCustomForm,player:FMPPlayer)
     constructor(form:FMPCustomForm,lastSessionOrPlayer:FMPSimpleFormSession|FMPCustomFormSession|FMPModalFormSession|FMPPlayer){
         
         //传入了表单会话，指明了跳转来源，就可以使用这个跳转来源进行后退操作了。
@@ -293,7 +297,7 @@ export class FMPCustomFormElements{
 export class FMPCustomFormInput extends FMPCustomFormElements{
     placeholder:string|undefined
     defaultValue:string|undefined
-    value:string
+    declare value:string
     constructor(name:string,title:string,placeholder?:string,defaultValue?:string){
         super(name,title);
         this.placeholder=placeholder
@@ -307,7 +311,7 @@ export class FMPCustomFormLabel extends FMPCustomFormElements{
 }
 export class FMPCustomFormSwitch extends FMPCustomFormElements{
     defaultValue:boolean|undefined
-    value:boolean
+    declare value:boolean
     constructor(name:string,title:string,defaultValue?:boolean){
         super(name,title)
         this.defaultValue=defaultValue
@@ -316,7 +320,7 @@ export class FMPCustomFormSwitch extends FMPCustomFormElements{
 export class FMPCustomFormDropdown extends FMPCustomFormElements{
     defaultValue:number|undefined
     items:string[]
-    value:number
+    declare value:number
     constructor(name:string,title:string,items:string[],defaultValue?:number){
         super(name,title)
         this.items=items
@@ -328,7 +332,7 @@ export class FMPCustomFormSlider extends FMPCustomFormElements{
     min:number
     max:number
     step:number
-    value:number
+    declare value:number
     constructor(name:string,title:string,min:number,max:number,step:number=1,defaultValue?:number){
         super(name,title)
         this.min=min
@@ -340,7 +344,7 @@ export class FMPCustomFormSlider extends FMPCustomFormElements{
 export class FMPCustomFormStepSlider extends FMPCustomFormElements{
     defaultValue:number|undefined
     items:string[]
-    value:number
+    declare value:number
     constructor(name:string,title:string,items:string[],defaultValue?:number){
         super(name,title)
         this.items=items
@@ -430,7 +434,9 @@ export class FMPModalForm extends FMPForm{
     }
 }
 export class FMPModalFormSession extends FMPFormSession{
-    form:FMPModalForm
+    declare form:FMPModalForm
+    constructor(form:FMPModalForm,lastSession:FMPSimpleFormSession|FMPCustomFormSession|FMPModalFormSession)
+    constructor(form:FMPModalForm,player:FMPPlayer)
     constructor(form:FMPModalForm,lastSessionOrPlayer:FMPSimpleFormSession|FMPCustomFormSession|FMPModalFormSession|FMPPlayer){
         //传入了会话，证明可以进行返回上级表单
         if(FMPFormSession.isSession(lastSessionOrPlayer)){
