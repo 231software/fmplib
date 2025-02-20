@@ -1,6 +1,7 @@
 import { FMPInternalPermission } from "./InternalPermission";
 import { FMPEulerAngles, FMPLocation } from "./Location";
 import {FMPItem} from "./Item.js"
+import { FMPInventory } from "./Container.js";
 /**
  * FMP定义的游戏模式  
  * 以Minecraft中的游戏模式为主，也可包括其他游戏中的游戏模式  
@@ -84,6 +85,10 @@ export class FMPPlayer{
     /** 更改玩家的游戏模式 */
     setGameMode(gameMode:FMPGameMode):boolean{
         return false;
+    }
+    /**获取玩家的物品栏 */
+    getInventory():FMPInventory{
+        return new FMPInventory()
     }
     /**
      * 通过该玩家执行一条命令

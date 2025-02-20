@@ -15,6 +15,23 @@ export {
     FMPSlot as Slot,
 } from "./Game/Container.js"
 export {
+    FMPNBTCompound as NBTCompound,
+    FMPNBTBasicType as NBTBasicType,
+    FMPNBTBoolean as NBTBoolean,
+    FMPNBTByte as NBTByte,
+    FMPNBTByteArray as NBTByteArray,
+    FMPNBTDouble as NBTDouble,
+    FMPNBTEnd as NBTEnd,
+    FMPNBTFloat as NBTFloat,
+    FMPNBTInt as NBTInt,
+    FMPNBTList as NBTList,
+    FMPNBTLong as NBTLong,
+    FMPNBTObjectLike as NBTObjectLike,
+    FMPNBTShort as NBTShort,
+    FMPNBTString as NBTString,
+    FMPNBTType as NBTType
+} from "./Game/NBT.js"
+export {
     FMPLocation as Location,
     FMPEulerAngles as EulerAngles
 } from "./Game/Location.js";

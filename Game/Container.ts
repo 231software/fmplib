@@ -5,7 +5,7 @@ export enum FMPContainerType{
     Inventory
 }
 export class FMPContainer{
-    size:string;
+    size:number;
     type:FMPContainer
     put(item:FMPItem,slot?:number):boolean{
         return false;
@@ -54,5 +54,10 @@ export class FMPSlot{
 }
 
 export class FMPMinecraftBundle{
+    
+}
+
+//玩家物品栏是一个有盔甲栏和副手栏的特殊窗口
+export class FMPInventory extends FMPContainer{
     
 }

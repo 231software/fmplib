@@ -1,3 +1,5 @@
+import { FMPNBTCompound } from "./NBT"
+
 /**
  * 代表游戏角色背包中的一件物品（包括物品栈）  
  * 注意物品不是槽位，槽位是单独的Slot类，其中可以容纳一个这个item
@@ -7,16 +9,19 @@ export class FMPItem{
     count:number
     name:string|undefined
     maxStack:number
-    constructor(type:string,count:number=0,name?:string){
-        this.type=type
-        this.count=count
-        this.name=name
+    constructor(type:string,count?:number,name?:string)
+    constructor(NBT:FMPNBTCompound)
+    constructor(){}
+    /**
+     * 获取物品的NBT标签
+     */
+    getNBT():FMPNBTCompound{
+        return new FMPNBTCompound({})
     }
-    
     /**
      * 设置物品的自定义名称
      */
-    set setName(name:string){
+    setName(name:string){
 
     }
 }
