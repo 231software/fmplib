@@ -11,7 +11,7 @@ export {
     FMPToolItem
 } from "./Game/Item.js"
 export {
-    FMPContainer as FMPContainer,
+    FMPContainer as Container,
     FMPSlot as Slot,
 } from "./Game/Container.js"
 export {

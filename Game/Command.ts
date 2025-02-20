@@ -1,4 +1,5 @@
 import { FMPInternalPermission } from "./InternalPermission";
+import { FMPPlayer } from "./Player";
 export enum FMPCommandParamType{
     Optional=1,
     Mandatory
@@ -65,7 +66,7 @@ export enum FMPCommandExecutorType{
 }
 export class FMPCommandExecutor{
     /** 命令执行者原始对象 */
-    object:any
+    object:FMPPlayer
     type:FMPCommandExecutorType
     constructor(object,type:FMPCommandExecutorType){
         this.object=object;
