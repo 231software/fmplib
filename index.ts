@@ -8,9 +8,12 @@ export { FMPPlayer as Player,FMPGameMode as GameMode} from "./Game/Player.js";
 export { FMPEntity as Entity,FMPDamageCause as DamageCause} from "./Game/Entity.js";
 export {
     FMPItem as Item,
-    FMPSlot as Slot,
     FMPToolItem
 } from "./Game/Item.js"
+export {
+    FMPContainer as FMPContainer,
+    FMPSlot as Slot,
+} from "./Game/Container.js"
 export {
     FMPLocation as Location,
     FMPEulerAngles as EulerAngles

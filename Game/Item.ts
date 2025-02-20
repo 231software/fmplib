@@ -6,11 +6,13 @@ export class FMPItem{
     type:string
     count:number
     name:string|undefined
+    maxStack:number
     constructor(type:string,count:number=0,name?:string){
         this.type=type
         this.count=count
         this.name=name
     }
+    
     /**
      * 设置物品的自定义名称
      */
@@ -26,14 +28,5 @@ export class FMPToolItem extends FMPItem{
     damage:number
     constructor(type:string,count:number=1,name?:string){
         super(type,count,name)
-    }
-}
-/**
- * 代表游戏角色背包中的一个槽位
- */
-export class FMPSlot{
-    item:FMPItem
-    constructor(){
-
     }
 }

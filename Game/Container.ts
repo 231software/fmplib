@@ -1,7 +1,8 @@
 import { FMPItem } from "./Item";
 
 export enum FMPContainerType{
-
+    Chest,
+    Inventory
 }
 export class FMPContainer{
     size:string;
@@ -9,7 +10,7 @@ export class FMPContainer{
     put(item:FMPItem,slot?:number):boolean{
         return false;
     }
-    getItem(slot:number):FMPItem{
+    getItem(slot:number):FMPItem|undefined{
         return new FMPItem("minecraft:stone",1)
     }
     replaceItem(slot:number,item:FMPItem):boolean{
@@ -36,4 +37,22 @@ export class FMPContainer{
     isEmpty():boolean{
         return false;
     }
+    //检查物品能否被放进当前位置
+    canPut(item:FMPItem,slot:number):boolean{
+        return false
+    }
+}
+
+/**
+ * 代表游戏角色背包中的一个槽位
+ */
+export class FMPSlot{
+    item:FMPItem
+    constructor(){
+
+    }
+}
+
+export class FMPMinecraftBundle{
+    
 }
