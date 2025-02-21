@@ -18,12 +18,6 @@ export class FMPItem{
     getNBT():FMPNBTCompound{
         return new FMPNBTCompound({})
     }
-    /**
-     * 设置物品的自定义名称
-     */
-    setName(name:string){
-
-    }
 }
 /**
  * 工具类物品
