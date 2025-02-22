@@ -1,5 +1,6 @@
 export enum FMPNBTType{
     LIST,
+    COMPOUND,
     END,
     BYTE,
     SHORT,
@@ -53,14 +54,14 @@ export class FMPNBTCompound extends FMPNBTObjectLike{
 }
 export abstract class FMPNBTBasicType{
 }
-export class FMPNBTList extends FMPNBTBasicType{
+export class FMPNBTList extends FMPNBTObjectLike{
     get size(){
         return 0;
     }
     getType(index:number):FMPNBTType{
         return FMPNBTType.END
     }
-    get(index:number):FMPNBTList|FMPNBTEnd|FMPNBTByte|FMPNBTShort|FMPNBTInt|FMPNBTLong|FMPNBTFloat|FMPNBTDouble|FMPNBTByteArray|FMPNBTString|FMPNBTBoolean{
+    get(index:number):FMPNBTList|FMPNBTEnd|FMPNBTByte|FMPNBTShort|FMPNBTInt|FMPNBTLong|FMPNBTFloat|FMPNBTDouble|FMPNBTByteArray|FMPNBTString|FMPNBTBoolean|undefined{
         return new FMPNBTEnd()
     }
     set(index:number,data:FMPNBTList):void
@@ -74,6 +75,7 @@ export class FMPNBTList extends FMPNBTBasicType{
     set(index:number,data:FMPNBTByteArray):void
     set(index:number,data:FMPNBTString):void
     set(index:number,data:FMPNBTBoolean):void
+    set(index:number,data:FMPNBTCompound):void
     set(index:number,data:FMPNBTList|FMPNBTEnd|FMPNBTByte|FMPNBTShort|FMPNBTInt|FMPNBTLong|FMPNBTFloat|FMPNBTDouble|FMPNBTByteArray|FMPNBTString|FMPNBTBoolean){
     }
     push(data:FMPNBTList):void
