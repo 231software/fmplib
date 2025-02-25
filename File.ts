@@ -138,6 +138,7 @@ export class FMPFile{
             const targetFileName=targetDir.folders.pop()
             if(targetFileName==undefined)throw new Error("multiple errors occured:\nFile can't be copied: operation not permitted\nFailed to obtain the last file or folder's name while checking for reasons.")
             //targetDir.folders.push(targetFileName,"..")//这行代码不知道有什么用，但他会在macOS上造成错误
+            
             //文件已存在
             if(FMPFile.ls(targetDir.toString(onWindows)).includes(targetFileName)){
                 if(FMPFile.isFile(source)){
@@ -290,7 +291,7 @@ export class FMPFile{
                 const targetDir=new FMPDirectory(target)
                 const targetFileName=targetDir.folders.pop()
                 if(targetFileName==undefined)throw new Error("multiple errors occured:\nFile can't be renamed: operation not permitted\nFailed to obtain the last file or folder's name while checking for reasons.")
-                targetDir.folders.push(targetFileName,"..")
+                //targetDir.folders.push(targetFileName,"..")//这行代码不知道有什么用，但他会在macOS上造成错误
                 
                 //文件已存在
                 if(FMPFile.ls(targetDir.toString(onWindows)).includes(targetFileName)){
@@ -312,11 +313,13 @@ export class FMPFile{
         catch(e){
             //当错误为EPERM时，检测是否是因为文件夹冲突；文件冲突已在上方解决
             if(e.code==="EPERM"){
+            
                 //解析出目标文件夹的上级目录
                 const targetDir=new FMPDirectory(target)
+                if(targetDir.folders.length==0)throw new Error("目前LNSDK的nodejs还不支持拷贝到当前目录，请联系LNSDK开发者寻求帮助")
                 const targetFileName=targetDir.folders.pop()
                 if(targetFileName==undefined)throw new Error("multiple errors occured:\nFile can't be renamed: operation not permitted\nFailed to obtain the last file or folder's name while checking for reasons.")    
-                //targetDir.folders.push(targetFileName,"..")
+                //targetDir.folders.push(targetFileName,"..")//这行代码不知道有什么用，但他会在macOS上造成错误
                 //文件已存在
                 if(FMPFile.ls(targetDir.toString(onWindows)).includes(targetFileName)){
                     //设置了存在同名文件则跳过，因为此处已经是同名文件的情况了，就直接跳过
@@ -365,7 +368,9 @@ export class FMPFile{
      * @param path 文件或文件夹路径
      */
     static permanently_delete(path:string){
-        const file_stat=fs.statSync(path)
+        //macos此处报错，可能是找不到文件
+        try{
+            const file_stat=fs.statSync(path)
         try{
             if(file_stat.isFile()){
                 fs.unlinkSync(path);
@@ -380,7 +385,11 @@ export class FMPFile{
             }
         }
         catch(e){
-            FMPLogger.error(e)
+            throw new Error("Can't delete file"+path+": Error(s) occured while removing Files: "+e)
+        }
+        }
+        catch(e){
+            throw new Error("Can't delete file"+path+", code: "+e.code)
         }
     }
     /**
