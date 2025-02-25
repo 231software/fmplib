@@ -389,7 +389,7 @@ export class FMPFile{
         }
         }
         catch(e){
-            throw new Error("Can't delete file"+path+", code: "+e.code)
+            throw new Error("Can't delete file "+path+"\ncode: "+e.code+"\nreason: "+e)
         }
     }
     /**
