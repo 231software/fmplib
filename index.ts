@@ -121,6 +121,8 @@ export{
     OneBotMessageVideoContent,
     OneBotMessageForwardContent,
     PluginEvent,
+    PluginEventHandler,
+    PluginEventError,
     regPluginFunc,
     getPluginFunc
 } from "./FeaturesIndex.js"
