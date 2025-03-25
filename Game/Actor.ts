@@ -7,7 +7,7 @@ export class FMPActor extends FMPCommandExecutor{
     uuid:string
     /**实体的uuid */
     direction:FMPEulerAngles
-    location:Location
+    location:FMPLocation
     inAir:boolean
     /** 在游戏世界中传送实体到指定坐标 */
     teleport(location:FMPLocation,direction?:FMPEulerAngles):boolean{
