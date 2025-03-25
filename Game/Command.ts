@@ -9,10 +9,11 @@ export interface FMPCommandRegisterPositions{
 }
 
 export class FMPCommandExecutor{
-    type:FMPCommandExecutorType
+    name:string
+    commandExecutorType:FMPCommandExecutorType
     displayName:string;
     constructor(type:FMPCommandExecutorType){
-        this.type=type;
+        this.commandExecutorType=type;
     }
     /**强制获取玩家，如果执行者不为玩家或玩家已离线则返回undefined */
     asPlayer():FMPPlayer|undefined{
