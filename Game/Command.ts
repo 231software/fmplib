@@ -185,7 +185,7 @@ export class FMPCommand{
      * 可执行该权限的用户组  
      * 命令的权限节点是默认禁止的，所以想要谁有权执行，必须指定这个用户组，然后他们才能有权执行。  
      * 例如我注册了一个指令，然后只指定了admin可执行，那么不仅普通玩家不可执行，控制台中和插件自己都无法执行该命令。  
-     * 如果要控制台可执行，那么需要再允许terminal用户组执行。  
+     * 如果要控制台可执行，那么需要再允许console用户组执行。  
      * 另外，插件将根据是否允许了非internal用户组执行插件来决定是否要向控制台、管理员和普通玩家注册此命令  
      * @param aliases 
      * 指令别名
@@ -200,7 +200,7 @@ export class FMPCommand{
         args:Array<FMPCommandParam>=[],
         overloads:Array<Array<string>>=[[]],
         callback:(result:FMPCommandResult)=>void,
-        registerPositions:FMPCommandRegisterPositions,
+        registerPositions:FMPCommandRegisterPositions={operator:true,console:true,internal:true},
         aliases:Array<string>=[],
         description:string|undefined=undefined,
         usageMessage:string|undefined=undefined,
