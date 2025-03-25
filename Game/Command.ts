@@ -5,7 +5,7 @@ export interface FMPCommandRegisterPositions{
     console?:boolean
     internal?:boolean
     operator?:boolean
-    any?:boolean
+    anyPlayer?:boolean
 }
 
 export class FMPCommandExecutor{
