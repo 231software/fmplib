@@ -1,5 +1,22 @@
-import { FMPInternalPermission } from "./InternalPermission";
+import { FMPEntity } from "./Entity";
+import { FMPPermissible } from "./Permission";
 import { FMPPlayer } from "./Player";
+
+export class FMPCommandExecutor extends FMPPermissible{
+    type:FMPCommandExecutorType
+    displayName:string;
+    constructor(type:FMPCommandExecutorType){
+        super()
+        this.type=type;
+    }
+    /**强制获取玩家，如果执行者不为玩家或玩家已离线则返回undefined */
+    asPlayer():FMPPlayer|undefined{
+        return undefined
+    }
+    asEntity():FMPEntity|undefined{
+        return undefined
+    }
+}
 export enum FMPCommandParamType{
     Optional=1,
     Mandatory
@@ -64,15 +81,6 @@ export enum FMPCommandExecutorType{
     CommandBlock,
     Unknown
 }
-export class FMPCommandExecutor{
-    /** 命令执行者原始对象 */
-    object:FMPPlayer
-    type:FMPCommandExecutorType
-    constructor(object,type:FMPCommandExecutorType){
-        this.object=object;
-        this.type=type;
-    }
-}
 export class FMPCommandResult{
     executor:FMPCommandExecutor
     params:Map<string,{param:FMPCommandParam,value:any}>
@@ -114,9 +122,7 @@ export class FMPCommand{
      */
     args:Map<string,FMPCommandParam>=new Map();
     overloads:Array<Array<string>>;
-    /**
-     */
-    permission:FMPInternalPermission;
+    allowedUserGroups:string[];
     callback:(result:FMPCommandResult)=>void
     /**
      */
@@ -169,9 +175,12 @@ export class FMPCommand{
      *     [目标玩家,传送点名]
      * ]
      * ```
-     * @param permission 
-     * 执行命令所需权限
-     * 命令只能被传入的权限等级及高于传入的权限等级的执行者执行
+     * @param allowedUserGroups 
+     * 可执行该权限的用户组  
+     * 命令的权限节点是默认禁止的，所以想要谁有权执行，必须指定这个用户组，然后他们才能有权执行。  
+     * 例如我注册了一个指令，然后只指定了admin可执行，那么不仅普通玩家不可执行，控制台中和插件自己都无法执行该命令。  
+     * 如果要控制台可执行，那么需要再允许terminal用户组执行。  
+     * 另外，插件将根据是否允许了非internal用户组执行插件来决定是否要向控制台、管理员和普通玩家注册此命令  
      * @param aliases 
      * 指令别名
      * 你的指令将由一个主名称和数个别名组成
@@ -185,7 +194,7 @@ export class FMPCommand{
         args:Array<FMPCommandParam>=[],
         overloads:Array<Array<string>>=[[]],
         callback:(result:FMPCommandResult)=>void,
-        permission:FMPInternalPermission=FMPInternalPermission.GameMasters,
+        allowedUserGroups:string[],
         aliases:Array<string>=[],
         description:string|undefined=undefined,
         usageMessage:string|undefined=undefined,
@@ -196,7 +205,7 @@ export class FMPCommand{
         this.usageMessage=usageMessage;
         for(let param of args)this.args.set(param.name,param)
         this.overloads=overloads;
-        this.permission=permission;
+        this.allowedUserGroups=allowedUserGroups;
         this.aliases=aliases;
         this.flag=flag;
         this.callback=callback;

@@ -50,7 +50,6 @@ export {
     FMPCommandResult as CommandResult,
     FMPruncmd as runcmd
 } from "./Game/Command.js"
-export {FMPInternalPermission as InternalPermission} from "./Game/InternalPermission.js"
 export {
     FMPSimpleForm as SimpleForm,
     FMPSimpleFormButton as SimpleFormButton,

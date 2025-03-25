@@ -1,7 +1,8 @@
-import { FMPInternalPermission } from "./InternalPermission";
 import { FMPEulerAngles, FMPLocation } from "./Location";
 import {FMPItem} from "./Item.js"
 import { FMPInventory } from "./Container.js";
+import { FMPActor } from "./Actor.js";
+import { EulerAngles } from "../index.js";
 /**
  * FMP定义的游戏模式  
  * 以Minecraft中的游戏模式为主，也可包括其他游戏中的游戏模式  
@@ -18,34 +19,12 @@ export enum FMPGameMode{
  * FMP定义的玩家  
  * 由于平台不同，不能在不对运行环境做任何限制的前提下假定此为Minecraft中的玩家
  */
-export class FMPPlayer{
+export class FMPPlayer extends FMPActor{
     /** 玩家在Minecraft基岩版中的xuid */
     xuid:string;
-    /** 玩家的游戏ID */
-    name:string;
-    /** 玩家在游戏内显示的名称 */
-    displayName:string;
-    /** 玩家在游戏世界中的坐标 */
-    location:FMPLocation
-    /**玩家的UUID（Unique UID） */
-    get uuid():string{
-        return ""
-    }
     /** 玩家的游戏模式 */
     get gameMode():FMPGameMode{
         return FMPGameMode.Unknown
-    }
-    /** 获取玩家在游戏世界中的朝向 */
-    get direction():FMPEulerAngles{
-        return FMPEulerAngles.new(0,0,0)
-    }
-    /**玩家对于游戏内置权限的权限等级 */
-    get internalPermission():FMPInternalPermission{
-        return FMPInternalPermission.Any
-    }
-    /**玩家是否腾空 */
-    get inAir():boolean{
-        return false
     }
     /**
      * 判断当前玩家是否在线。  
@@ -78,25 +57,9 @@ export class FMPPlayer{
     tell(message:string):boolean{
         return false;
     }
-    /** 在游戏世界中传送玩家到指定坐标 */
-    teleport(location:FMPLocation,direction?:FMPEulerAngles):boolean{
-        return false;
-    }
     /** 更改玩家的游戏模式 */
     setGameMode(gameMode:FMPGameMode):boolean{
         return false;
-    }
-    /**获取玩家的物品栏 */
-    getInventory():FMPInventory{
-        return new FMPInventory()
-    }
-    /**
-     * 通过该玩家执行一条命令
-     * @param cmd 要执行的命令
-     * @returns 是否执行成功
-     */
-    runCmd(cmd:string):boolean{
-        return false
     }
     /**
      * 调用加载器或插件内数据库通过玩家名查询其UUID
