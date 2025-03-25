@@ -1,7 +1,6 @@
 import { FMPCommandExecutor } from "./Command";
 import { FMPInventory } from "./Container";
 import { FMPEulerAngles, FMPLocation } from "./Location";
-import { FMPPermissible } from "./Permission";
 
 export class FMPActor extends FMPCommandExecutor{
     uuid:string

@@ -1,12 +1,17 @@
 import { FMPEntity } from "./Entity";
-import { FMPPermissible } from "./Permission";
 import { FMPPlayer } from "./Player";
 
-export class FMPCommandExecutor extends FMPPermissible{
+export interface FMPCommandRegisterPositions{
+    console?:boolean
+    internal?:boolean
+    operator?:boolean
+    any?:boolean
+}
+
+export class FMPCommandExecutor{
     type:FMPCommandExecutorType
     displayName:string;
     constructor(type:FMPCommandExecutorType){
-        super()
         this.type=type;
     }
     /**强制获取玩家，如果执行者不为玩家或玩家已离线则返回undefined */
@@ -122,7 +127,7 @@ export class FMPCommand{
      */
     args:Map<string,FMPCommandParam>=new Map();
     overloads:Array<Array<string>>;
-    allowedUserGroups:string[];
+    registerPositions:FMPCommandRegisterPositions;
     callback:(result:FMPCommandResult)=>void
     /**
      */
@@ -194,7 +199,7 @@ export class FMPCommand{
         args:Array<FMPCommandParam>=[],
         overloads:Array<Array<string>>=[[]],
         callback:(result:FMPCommandResult)=>void,
-        allowedUserGroups:string[],
+        registerPositions:FMPCommandRegisterPositions,
         aliases:Array<string>=[],
         description:string|undefined=undefined,
         usageMessage:string|undefined=undefined,
@@ -205,13 +210,13 @@ export class FMPCommand{
         this.usageMessage=usageMessage;
         for(let param of args)this.args.set(param.name,param)
         this.overloads=overloads;
-        this.allowedUserGroups=allowedUserGroups;
+        this.registerPositions=registerPositions;
         this.aliases=aliases;
         this.flag=flag;
         this.callback=callback;
     } 
     /**
-     * 注册命令
+     * 注册命令 **已弃用，命令注册将在构造函数中自动执行**
      * @param command 要注册的命令对象，建议现场new一个传进去
      * @returns 命令是否注册成功
      * @deprecated
