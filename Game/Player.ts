@@ -1,6 +1,6 @@
 import { FMPEulerAngles, FMPLocation } from "./Location";
 import {FMPItem} from "./Item.js"
-import { FMPInventory } from "./Container.js";
+import { FMPInventory, FMPPlayerInventory } from "./Container.js";
 import { FMPActor } from "./Actor.js";
 import { EulerAngles } from "../index.js";
 /**
@@ -60,6 +60,9 @@ export class FMPPlayer extends FMPActor{
     /** 更改玩家的游戏模式 */
     setGameMode(gameMode:FMPGameMode):boolean{
         return false;
+    }
+    getInventory():FMPPlayerInventory{
+        return new FMPPlayerInventory()
     }
     /**
      * 调用加载器或插件内数据库通过玩家名查询其UUID

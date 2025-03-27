@@ -12,10 +12,6 @@ export class FMPActor extends FMPCommandExecutor{
     teleport(location:FMPLocation,direction?:FMPEulerAngles):boolean{
         return false;
     }
-    /**获取实体的物品栏 */
-    getInventory():FMPInventory{
-        return new FMPInventory()
-    }
     /**
      * 通过该实体执行一条命令
      * @param cmd 要执行的命令
