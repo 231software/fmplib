@@ -12,6 +12,9 @@ export {
 } from "./Game/Item.js"
 export {
     FMPContainer as Container,
+    FMPInventory as Inventory,
+    FMPPlayerInventory as PlayerInventory,
+    FMPMobInventory as MobInventory,
     FMPSlot as Slot,
 } from "./Game/Container.js"
 export {
