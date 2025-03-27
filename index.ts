@@ -136,7 +136,8 @@ export {
     FMPCurrency as Currency
 } from "./Game/Economy.js"
 export {
-    TwoWayMap,
+    FMPTwoWayMap as TwoWayMap,
+    FMPRegionRectangle as RegionRectangle,
     newUUID4
 } from "./Tools.js"
 export {
