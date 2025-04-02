@@ -126,7 +126,9 @@ export class FMPRegionRectangle{
         return false;
     }
 }
-
+/**
+ * @deprecated
+ */
 export function FMPBubbleSort(listin:number[]):number[]{
     let l=listin
     let low=0
