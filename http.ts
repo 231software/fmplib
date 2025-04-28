@@ -45,13 +45,13 @@ export class HTTPRequest{
 
         this.options=options
     }
-    on(event:"error"|"abort",callback:(e:any)=>void){
+    protected on(event:"error"|"abort",callback:(e:any)=>void){
         this.rawRequest.on(event,callback)
     }
-    write(data:string){
+    protected write(data:string){
         this.rawRequest.write(data)
     }
-    end(){
+    protected end(){
         this.rawRequest.end()
     }
     get URL():string{
@@ -118,7 +118,7 @@ export class HTTPRequest{
     }
 }
 
-export class HTTPIncomingMessage{
+class HTTPIncomingMessage{
     rawIncomingMessage:http.IncomingMessage
     constructor(rawIncomingMessage:http.IncomingMessage){
         this.rawIncomingMessage=rawIncomingMessage
