@@ -19,13 +19,23 @@ export class FMPManualConstructedLocation{
 }
 export class FMPLocation{
     /** 原始坐标对象 */
-    rawlocation:any;
+    //rawlocation:any;
     /**
      * 
+     * @param x x坐标
+     * @param y y坐标
+     * @param z z坐标
+     * @param dimension 坐标所在维度
+     */
+    constructor(x:number,y:number,z:number,dimension:FMPDimension)
+    /**
+     * 此方法只建议第三方库调用，不建议在项目中直接调用
      * @param rawlocation 原始坐标对象
      * @param manualConstructed 是否由用户手动生成
      */
-    constructor(x:number,y:number,z:number,dimension:FMPDimension){
+    constructor(rawlocation:any,manualConstructed:boolean)
+    constructor(...args:any[]){
+        
     }
     get x():number{
         return 0;
@@ -39,9 +49,10 @@ export class FMPLocation{
     get dimension():FMPDimension{
         return FMPDimension.getDimension("overworld");
     }
-    static new(x:number,y:number,z:number,dimension:FMPDimension=FMPDimension.getDimension("overworld")):FMPLocation{
-        return new FMPLocation(x,y,z,dimension);
-    }
+    //全部在构造函数里面重载了，不要在外面写new静态方法了，写的跟粑粑似的
+    // static new(x:number,y:number,z:number,dimension:FMPDimension=FMPDimension.getDimension("overworld")):FMPLocation{
+    //     return new FMPLocation(x,y,z,dimension);
+    // }
 }
 export class FMPEulerAngles{
     rawangle:any;
