@@ -17,6 +17,11 @@ export class FMPManualConstructedLocation{
         this.dimension=dimension;
     }
 }
+/**
+ * 对应java版的Location和基岩版的浮点坐标  
+ * 基岩版中存在一种整数坐标，但是那种坐标不会在fmp中对应地写出来，原因是java版并没有这种整数坐标  
+ * 在基岩版的第三方库中，如果加载器方面需要使用整数坐标，就需要直接将浮点坐标转换过去
+ */
 export class FMPLocation{
     /** 原始坐标对象 */
     //rawlocation:any;
