@@ -14,6 +14,13 @@ function HTTPMethodTostring(method:HTTPMethod):string{
         case HTTPMethod.POST:return "POST"
     }
 }
+function stringToHTTPMethod(method:string):HTTPMethod{
+    switch(method){
+        default:
+        case "GET":return HTTPMethod.GET
+        case "POST":return HTTPMethod.POST
+    }
+}
 
 export interface HTTPOptions{
     hostname:string,
@@ -167,7 +174,7 @@ export class HTTPIncomingMessage{
         return this.rawIncomingMessage.statusCode
     }
     get method(){
-        return this.rawIncomingMessage.method
+        return this.rawIncomingMessage.method?stringToHTTPMethod(this.rawIncomingMessage.method):undefined
     }
     get url(){
         return this.rawIncomingMessage.url
@@ -195,6 +202,8 @@ export interface HTTPRespond{
     head:{[key:string]:any}
     //响应体
     body:string
+    //编码
+    charset:string
 }
 
 export class HTTPServer{
