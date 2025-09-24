@@ -108,7 +108,15 @@ export class FMPMinecraftBundle{
     
 }
 
-//玩家物品栏是一个有盔甲栏和副手栏的特殊窗口
 export class FMPInventory extends FMPContainer{
     
+}
+
+//玩家物品栏是一个有盔甲栏和副手栏的特殊窗口
+export class FMPPlayerInventory extends FMPInventory{
+
+}
+
+export class FMPMobInventory extends FMPInventory{
+
 }

@@ -12,6 +12,9 @@ export {
 } from "./Game/Item.js"
 export {
     FMPContainer as Container,
+    FMPInventory as Inventory,
+    FMPPlayerInventory as PlayerInventory,
+    FMPMobInventory as MobInventory,
     FMPSlot as Slot,
 } from "./Game/Container.js"
 export {
@@ -36,8 +39,7 @@ export {
     FMPEulerAngles as EulerAngles
 } from "./Game/Location.js";
 export {
-    FMPDimension as Dimension,
-    FMPDefaultDimension as DefaultDimension
+    FMPDimension as Dimension
 } from "./Game/Dimension.js"
 export {
     FMPCommand as Command,
@@ -51,7 +53,6 @@ export {
     FMPCommandResult as CommandResult,
     FMPruncmd as runcmd
 } from "./Game/Command.js"
-export {FMPInternalPermission as InternalPermission} from "./Game/InternalPermission.js"
 export {
     FMPSimpleForm as SimpleForm,
     FMPSimpleFormButton as SimpleFormButton,
@@ -72,7 +73,11 @@ export {
     FMPInitEvent as InitEvent,
     FMPDisableEvent as DisableEvent
 } from "./Events/Process.js"
-export {FMPPlayerToggleSneakEvent as PlayerToggleSneakEvent,FMPPlayerJoinEvent as PlayerJoinEvent} from "./Events/Player.js"
+export {
+    FMPPlayerToggleSneakEvent as PlayerToggleSneakEvent,
+    FMPPlayerJoinEvent as PlayerJoinEvent,
+    FMPPlayerChatEvent as PlayerChatEvent
+} from "./Events/Player.js"
 export {
     FMPTickEvent as TickEvent
 } from "./Events/Server.js"
@@ -131,12 +136,16 @@ export {
     FMPCurrency as Currency
 } from "./Game/Economy.js"
 export {
-    TwoWayMap,
+    FMPTwoWayMap as TwoWayMap,
+    FMPRegionRectangle as RegionRectangle,
     newUUID4
 } from "./Tools.js"
 export {
     HTTPMethod,
     HTTPRequest,
-    HTTPIncomingMessage
+    HTTPIncomingMessage,
+    HTTPOptions,
+    HTTPRespond,
+    HTTPServer
 } from "./http.js"
 export {ScriptDone} from "./Events/Process.js"

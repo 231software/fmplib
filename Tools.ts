@@ -1,7 +1,7 @@
 import { FMPDimension } from "./Game/Dimension";
 import { FMPLocation } from "./Game/Location";
 import { randomBytes } from 'crypto';
-export class TwoWayMap<L,R>{
+export class FMPTwoWayMap<L,R>{
     leftTable:Map<L,R>;
     rightTable:Map<R,L>=new Map<R,L>();
     constructor(data:Map<L,R>){
@@ -39,7 +39,7 @@ export class TwoWayMap<L,R>{
         this.rightTable.delete(right);
     }
 }
-export class RegionRectangle{
+export class FMPRegionRectangle{
     posnwu:FMPLocation;
     possed:FMPLocation;
     is2d:boolean;
@@ -53,7 +53,7 @@ export class RegionRectangle{
     constructor(pos1:FMPLocation,pos2:FMPLocation,is2d:boolean){
         //西北方向是正
         //其中x+是西，z+是北
-        let largeSmall=RegionRectangle.largestAndSmallestPos(pos1,pos2);
+        let largeSmall=FMPRegionRectangle.largestAndSmallestPos(pos1,pos2);
         /**矩形区域的上西北角（三个坐标均最大） */
         this.posnwu=largeSmall.large;
         /**矩形区域的下东南角（三个坐标均最小） */
@@ -126,7 +126,9 @@ export class RegionRectangle{
         return false;
     }
 }
-
+/**
+ * @deprecated
+ */
 export function FMPBubbleSort(listin:number[]):number[]{
     let l=listin
     let low=0
