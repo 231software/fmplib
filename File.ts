@@ -192,18 +192,11 @@ export class FMPFile{
             //文件不存在的话，会正常地执行下面的移动
             fs.cpSync(source,destination,{recursive:true})
         }
-        catch(e){
-            
+        catch(e:any){
+            //由于内层抛出的错误一定是Error类型及其子类，所以此处不检查类型
             //其他无法处理的错误，会直接报错，抛出错误
-            const errorToBeThrown=new Error(errorText+"\nnodejs error logs：\n"+e)
-            // 复制原始错误的所有属性到自定义错误对象上 
-            for (let key in e) { 
-                if (e.hasOwnProperty(key)) { 
-                    errorToBeThrown[key] = e[key]; 
-                } 
-            } 
-            // 抛出自定义错误对象 
-            throw errorToBeThrown;
+            e.message=errorText+"\nnodejs error logs：\n"+e
+            throw e;
         }
     }
     /**
@@ -310,7 +303,7 @@ export class FMPFile{
             }
             fs.renameSync(path,target);
         }
-        catch(e){
+        catch(e:any){
             //当错误为EPERM时，检测是否是因为文件夹冲突；文件冲突已在上方解决
             if(e.code==="EPERM"){
             
@@ -350,16 +343,8 @@ export class FMPFile{
                 errorText=errorText+"\nSome files already exist in the target directory, these conflicts prevented renaming."
             }
             
-            //其他无法处理的错误，会直接报错，抛出错误
-            const errorToBeThrown=new Error(errorText+"\nnodejs error logs：\n"+e)
-            // 复制原始错误的所有属性到自定义错误对象上 
-            for (let key in e) { 
-                if (e.hasOwnProperty(key)) { 
-                    errorToBeThrown[key] = e[key]; 
-                } 
-            } 
-            // 抛出自定义错误对象 
-            throw errorToBeThrown;
+            e.message=errorText+"\nnodejs error logs：\n"+e
+            throw e;
         }
     }
     /**
@@ -388,7 +373,7 @@ export class FMPFile{
             throw new Error("Can't delete file"+path+": Error(s) occured while removing Files: "+e)
         }
         }
-        catch(e){
+        catch(e:any){
             throw new Error("Can't delete file "+path+"\ncode: "+e.code+"\nreason: "+e)
         }
     }
@@ -437,7 +422,7 @@ export class FMPDirectory{
     }
 }
 export class JsonFile{
-    fileContent:string;
+    fileContent="";
     path:string;
     objpath:string[];
     rootobj:any;
@@ -512,7 +497,7 @@ export class JsonFile{
          * @param index 
          * @returns ？？这里好像写的有问题，但是竟然能运行  草，果然有问题，刚才就发现了
          */
-        function getValue(obj:Object,index:number){
+        function getValue(obj:any,index:number):any{
             //log(objpath[index])
             //log("JsonFile "+index)
             if(index>=objpath.length-1){//length-1是最后一个元素的索引，如果到达这个索引，就证明应该读取这一级目录中的值了
@@ -615,6 +600,7 @@ export class JsonFile{
     }
     reloadroot():boolean{
         this.fileContent=FMPFile.read(this.path)
+        //由于this.fileContent的读取一定是在赋值之后，所以不需要担心它无初始值
         this.rootobj=JSON.parse(this.fileContent);
         return true;
         //this.keys=this.getAllKeys(this.rootobj);
@@ -627,7 +613,7 @@ export class JsonFile{
     reload():boolean{
         return this.reloadroot();
     }
-    getAllKeys(obj:any,index=0){
+    getAllKeys(obj:any,index=0):string[]{
         if(this.objpath.length==0){
             return Object.keys(this.rootobj)
         }
