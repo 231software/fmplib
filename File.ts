@@ -1,6 +1,7 @@
 //import * as fs from "fs";
 import * as afs from "fs/promises"
 import { FMPLogger } from "./Logger";
+import { execSync } from "child_process";
 const onWindows=process.platform === 'win32'
 export class FMPFile{
     static async ls(path:string):Promise<string[]>{
@@ -303,12 +304,18 @@ export class FMPFile{
                     if(options.skipSameNameFiles||options.skipSameName==true)return;
                     //设置了替换同名文件
                     if(options.replaceFiles==true){
+                        //windows上不能这么移动，会被windows系统阻止，但类unix系统（macos和linux）是可以的
+                        //所以需要先判断是不是Windows系统，如果是的话就需要先删除原文件再放入新文件
+                        if(onWindows){
+                            //windows系统下直接删除文件也不能马上删除，所以这里调用了cmd来删除，并通过execSync别死主线程强行等待文件删除
+                            execSync("del /F "+new FMPDirectory(target).toString(true))
+                        }
                         await afs.rename(path,target)
                         //任务完成，结束
                         return
                     }
                     //什么都没有设置，根本无从得知用户在文件冲突时要如何操作，直接报错（相当于取消移动）
-                    throw new Error("A File with the same name already exists in the target directory, this ile can't be moved.\nYou can solve this error by setting skipSameNameFiles (skip when this happens) or replaceFiles (discard the file in the target directory by replacing) to 'true'")
+                    throw new Error("A File with the same name already exists in the target directory, this file can't be moved.\nYou can solve this error by setting skipSameNameFiles (skip when this happens) or replaceFiles (discard the file in the target directory by replacing) to 'true'")
                 }
                 //文件不存在的话，会正常地执行下面的移动
             }
@@ -369,7 +376,8 @@ export class FMPFile{
             const file_stat=await afs.stat(path)
         try{
             if(file_stat.isFile()){
-                await afs.unlink(path);
+                if(onWindows)execSync("del /F "+new FMPDirectory(path).toString(true))//windows系统要同步删除文件只能调命令行
+                else await afs.unlink(path);
             }
             else if(file_stat.isDirectory()){
                 //清空文件夹
@@ -377,7 +385,8 @@ export class FMPFile{
                     this.permanentlyDelete(path+"/"+filename);
                 }
                 //删除文件夹
-                await afs.rmdir(path);
+                if(onWindows)execSync("rd /Q "+new FMPDirectory(path).toString(true))//windows系统要同步删除文件只能调命令行
+                else await afs.rmdir(path);
             }
         }
         catch(e){

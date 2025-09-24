@@ -48,6 +48,10 @@ function contentType2Headers(contentType:HTTPContentType){
  * 使用方法：
  * ```typescript
  * //先新建这个请求
+ *  如果需要监听错误，那么就这么写
+ * req.on("error",(e)=>{ 这里写错误处理的实现 };
+ * //向请求写入请求体，如果需要的话
+ * req.write( 请求体 );
  * const req=new HTTPRequest(...);
  * //最后发送数据并处理服务器的响应
  * req.send().then((result)=>{
@@ -123,9 +127,7 @@ export class HTTPRequest{
             path
         },otherHTTPOptions)
         return new Promise<HTTPIncomingMessage>((resolve,reject)=>{
-            req.on("error",(e)=>{
-                reject(e);
-            })
+            req.on("error",e=>reject(e))
             req.send().then(result=>resolve(result))           
         })
 
@@ -146,9 +148,7 @@ export class HTTPRequest{
         //写入要发送的数据
         req.write(data)
         return new Promise<HTTPIncomingMessage>((resolve,reject)=>{
-            req.on("error",(e)=>{
-                reject(e)
-            })
+            req.on("error",e=>reject(e))
             req.send().then(result=>resolve(result))            
         })
     }
@@ -159,6 +159,11 @@ export class HTTPIncomingMessage{
     private _body=""
     private downloadFinished:boolean
     private bodyResolve:((body:string)=>void)[]
+    /**
+     * 
+     * @param rawIncomingMessage 原始传入消息对象
+     * @param incomingData 消息上传完成时将这个promise resolve
+     */
     constructor(rawIncomingMessage:http.IncomingMessage,incomingData:Promise<string>){
         this.rawIncomingMessage=rawIncomingMessage
         this.bodyResolve=[]
