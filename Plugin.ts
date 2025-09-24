@@ -9,7 +9,8 @@ export class FMPPlugin{
      * @param info 要初始化的插件实例对应的INFO
      */
     constructor(info:any,data_path:string){
-        
+        this.name=info.name
+        this.data_path=data_path
     }
     /**
      * 插件是否已被加载

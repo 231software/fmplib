@@ -33,6 +33,16 @@ export interface HTTPOptions{
     body?:string
 }
 
+export enum HTTPContentType{
+    JSON
+}
+
+function contentType2Headers(contentType:HTTPContentType){
+    switch(contentType){
+        case HTTPContentType.JSON:return "application/json"
+    }
+}
+
 /**
  * 由于nodejs不支持长期的http客户端，所以请求只能按单次请求创建，不能创建客户端来进行多次请求。  
  * 使用方法：
@@ -48,14 +58,14 @@ export interface HTTPOptions{
 export class HTTPRequest{
     rawRequest:http.ClientRequest|undefined
     options:HTTPOptions
+    otherHTTPOptions:any
     //请求通过end发送之后，会产生一个resolve被存到这里，供nodejs的http请求的回调调用，它被调用之后send才能结束
-    private sendResolve:(result:HTTPIncomingMessage)=>void
-    constructor(options:HTTPOptions){
+    private sendResolve:(result:HTTPIncomingMessage)=>void=(result)=>{throw new Error("发送以下数据时，没有执行send就收到了请求结果！\n"+result)}
+    constructor(options:HTTPOptions,otherOptions:any={}){
         this.options=options
+        this.otherHTTPOptions=otherOptions
         const NodeJSHTTPOptions:http.RequestOptions=this.toRawRequestOptions()
         NodeJSHTTPOptions.method=HTTPMethodTostring(options.method!=undefined?options.method:HTTPMethod.GET)
-
-        this.options=options
         //request里面传入的回调只有在end之后才会被调用，所以此处需要取得下面的send方法内部的resolve
         this.rawRequest=http.request(this.toRawRequestOptions(),result=>{
             let downloadFinishResolve:(result:string)=>void
@@ -83,7 +93,8 @@ export class HTTPRequest{
             path:this.options.path,
             headers:this.options.headers,
             //agent:options.agent,
-            timeout:this.options.timeout
+            timeout:this.options.timeout,
+            ...this.otherHTTPOptions
         }
     }
     get URL():string{
@@ -100,32 +111,28 @@ export class HTTPRequest{
      * 不能发送https请求，https请求请使用HTTPSRequest  
      * nodejs在实际工作中会分块下载http响应结果，但是为了和java那边兼容，fmp只能一次性接收所有数据
      * @param hostname 服务器主机名（IP地址或域名）
-     * @param onSuccess 请求成功时的回调
-     * @param path 请求的http的路径
-     * @param port http服务的端口，不填默认80，对于默认端口在443的https协议有另一个类
      * @param otherHTTPOptions 传递给nodejs的其他http参数，默认传入{}
      * @param onError 请求失败时的回调
      */
-    static sendSimpleGET(hostname:string,onSuccess:(data:string)=>void,path:string="",port:number=80,otherHTTPOptions:any={},onError?:(error:Error)=>void){
-
+    static async sendSimpleGET(url:string,otherHTTPOptions:any={}){
+        const {protocol,hostname,port,path}=parseUrl(url)
         const req=new HTTPRequest({
             hostname,
             port,
             method:HTTPMethod.GET,
             path
+        },otherHTTPOptions)
+        return new Promise<HTTPIncomingMessage>((resolve,reject)=>{
+            req.on("error",(e)=>{
+                reject(e);
+            })
+            req.send().then(result=>resolve(result))           
         })
-        req.on("error",(e)=>{
-            if(onError==undefined){
-                FMPLogger.error("http请求"+req.URL+"出错，原因：\n"+e)
-                return
-            }
-            onError(e);
-        })
-        req.send().then(result=>result.getBody().then(value=>onSuccess(value)))
+
         
     }
-    static sendJSONSimplePOST(hostname:string,data:string,onSuccess:(data:string)=>void,path:string="",port:number=80,otherHTTPOptions:any={},onError?:(error:Error)=>void){
-
+    static async sendSimplePOST(url:string,contentType:HTTPContentType,data:string,otherHTTPOptions:any={}){
+        const {protocol,hostname,port,path}=parseUrl(url)
         const req=new HTTPRequest({
             hostname,
             port,
@@ -133,21 +140,17 @@ export class HTTPRequest{
             path,
             headers:{
                 'Content-Length': Buffer.byteLength(data),
-                'Content-Type':"application/json"
+                'Content-Type':contentType2Headers(contentType)
             }
-        })
+        },otherHTTPOptions)
         //写入要发送的数据
         req.write(data)
-        req.on("error",(e)=>{
-            if(onError==undefined){
-                FMPLogger.error("http请求"+req.URL+"出错，原因：\n"+e)
-                return
-            }
-            onError(e);
+        return new Promise<HTTPIncomingMessage>((resolve,reject)=>{
+            req.on("error",(e)=>{
+                reject(e)
+            })
+            req.send().then(result=>resolve(result))            
         })
-        req.send().then(result=>result.getBody().then(value=>onSuccess(value)))
-        
-        
     }
 }
 
@@ -272,4 +275,60 @@ export class HTTPServer{
         })
         this.started=false
     }
+}
+
+
+/**
+ * 拆解URL为四个部分：协议、主机名、端口号和路径。
+ * @param url - 待解析的URL字符串。
+ * @returns - 包含拆解后部分的JavaScript对象。
+ */
+function parseUrl(url:string) {
+    // 定义结果对象，所有属性都有默认值
+    const result:{
+        protocol?:string,
+        hostname:string,
+        port?:number,
+        path?:string
+    } = {
+        hostname: ''
+    };
+
+    // 如果URL为空或不是字符串，直接返回默认值
+    if (!url || typeof url !== 'string') {
+        return result;
+    }
+
+    // 1. 拆分协议
+    // 检查是否以 "://" 开头
+    const protocolMatch = url.match(/^([a-zA-Z]+:)?\/\//);
+    if (protocolMatch) {
+        result.protocol = protocolMatch[1] ? protocolMatch[1]+"//" : '';
+        // 移除协议部分，继续解析剩余部分
+        url = url.substring(protocolMatch[0].length);
+    }
+
+    // 2. 拆分主机名、端口和路径
+    // 查找第一个斜杠 "/"，它通常是主机名和路径的分界线
+    const pathIndex = url.indexOf('/');
+    let hostAndPort = url;
+    if (pathIndex !== -1) {
+        // 存在路径，拆分出主机和路径
+        hostAndPort = url.substring(0, pathIndex);
+        result.path = url.substring(pathIndex);
+    }
+
+    // 3. 拆分主机名和端口号
+    // 查找冒号 ":"，它通常是主机名和端口的分界线
+    const portIndex = hostAndPort.indexOf(':');
+    if (portIndex !== -1) {
+        // 存在端口号
+        result.hostname = hostAndPort.substring(0, portIndex);
+        result.port = parseInt(hostAndPort.substring(portIndex + 1));
+    } else {
+        // 没有端口号，整个部分都是主机名
+        result.hostname = hostAndPort;
+    }
+
+    return result;
 }
