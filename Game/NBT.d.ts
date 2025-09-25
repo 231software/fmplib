@@ -12,18 +12,13 @@ export enum FMPNBTType{
     STRING,
     BOOLEAN
 }
+type anyNBTType=FMPNBTList|FMPNBTEnd|FMPNBTByte|FMPNBTShort|FMPNBTInt|FMPNBTLong|FMPNBTFloat|FMPNBTDouble|FMPNBTByteArray|FMPNBTString|FMPNBTBoolean
 export abstract class FMPNBTObjectLike{
-    toString(space:number){
-
-    }
+    toString(space:number):string
 }
 export class FMPNBTCompound extends FMPNBTObjectLike{
-    constructor(data?:any){
-        super()
-    }
-    get(tagName:string):FMPNBTList|FMPNBTEnd|FMPNBTByte|FMPNBTShort|FMPNBTInt|FMPNBTLong|FMPNBTFloat|FMPNBTDouble|FMPNBTByteArray|FMPNBTString|FMPNBTBoolean{
-        return new FMPNBTEnd()
-    }
+    constructor(data?:any)
+    get(tagName:string):anyNBTType
     set(tagName:string,data:FMPNBTList):void
     set(tagName:string,data:FMPNBTEnd):void
     set(tagName:string,data:FMPNBTByte):void
@@ -35,35 +30,18 @@ export class FMPNBTCompound extends FMPNBTObjectLike{
     set(tagName:string,data:FMPNBTByteArray):void
     set(tagName:string,data:FMPNBTString):void
     set(tagName:string,data:FMPNBTBoolean):void
-    set(tagName:string,data:FMPNBTList|FMPNBTEnd|FMPNBTByte|FMPNBTShort|FMPNBTInt|FMPNBTLong|FMPNBTFloat|FMPNBTDouble|FMPNBTByteArray|FMPNBTString|FMPNBTBoolean):void{
-
-    }
-    getType(tagName:string):FMPNBTType{
-        return FMPNBTType.END
-    }
-    delete(tagName:string){
-
-    }
-    toObject(){
-
-    }
-    toSNBT(){
-        
-    }
+    getType(tagName:string):FMPNBTType
+    delete(tagName:string):void
+    toObject():any
+    toSNBT():string
 
 }
 export abstract class FMPNBTBasicType{
 }
 export class FMPNBTList extends FMPNBTObjectLike{
-    get size(){
-        return 0;
-    }
-    getType(index:number):FMPNBTType{
-        return FMPNBTType.END
-    }
-    get(index:number):FMPNBTList|FMPNBTEnd|FMPNBTByte|FMPNBTShort|FMPNBTInt|FMPNBTLong|FMPNBTFloat|FMPNBTDouble|FMPNBTByteArray|FMPNBTString|FMPNBTBoolean|undefined{
-        return new FMPNBTEnd()
-    }
+    size:number
+    getType(index:number):FMPNBTType
+    get(index:number):anyNBTType|undefined
     set(index:number,data:FMPNBTList):void
     set(index:number,data:FMPNBTEnd):void
     set(index:number,data:FMPNBTByte):void
@@ -76,8 +54,6 @@ export class FMPNBTList extends FMPNBTObjectLike{
     set(index:number,data:FMPNBTString):void
     set(index:number,data:FMPNBTBoolean):void
     set(index:number,data:FMPNBTCompound):void
-    set(index:number,data:FMPNBTList|FMPNBTEnd|FMPNBTByte|FMPNBTShort|FMPNBTInt|FMPNBTLong|FMPNBTFloat|FMPNBTDouble|FMPNBTByteArray|FMPNBTString|FMPNBTBoolean){
-    }
     push(data:FMPNBTList):void
     push(data:FMPNBTEnd):void
     push(data:FMPNBTByte):void
@@ -89,11 +65,7 @@ export class FMPNBTList extends FMPNBTObjectLike{
     push(data:FMPNBTByteArray):void
     push(data:FMPNBTString):void
     push(data:FMPNBTBoolean):void
-    push(data:FMPNBTList|FMPNBTEnd|FMPNBTByte|FMPNBTShort|FMPNBTInt|FMPNBTLong|FMPNBTFloat|FMPNBTDouble|FMPNBTByteArray|FMPNBTString|FMPNBTBoolean){
-    }
-    pop(){
-
-    }
+    pop():void
     unshift(data:FMPNBTList):void
     unshift(data:FMPNBTEnd):void
     unshift(data:FMPNBTByte):void
@@ -105,17 +77,9 @@ export class FMPNBTList extends FMPNBTObjectLike{
     unshift(data:FMPNBTByteArray):void
     unshift(data:FMPNBTString):void
     unshift(data:FMPNBTBoolean):void
-    unshift(data:FMPNBTList|FMPNBTEnd|FMPNBTByte|FMPNBTShort|FMPNBTInt|FMPNBTLong|FMPNBTFloat|FMPNBTDouble|FMPNBTByteArray|FMPNBTString|FMPNBTBoolean){
-    }
-    shift(){
-
-    }
-    splice(start:number,deleteCount:number){
-
-    }
-    toArray(){
-
-    }
+    shift():anyNBTType
+    splice(start:number,deleteCount:number):void
+    toArray():anyNBTType[]
     
 }
 export class FMPNBTEnd extends FMPNBTBasicType{

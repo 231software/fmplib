@@ -7,14 +7,13 @@ export interface FMPCommandRegisterPositions{
     operator?:boolean
     anyPlayer?:boolean
 }
-
+//第二步：大改命令部分
+//加入子命令
 export class FMPCommandExecutor{
-    name:string
-    commandExecutorType:FMPCommandExecutorType
-    displayName:string;
-    constructor(type:FMPCommandExecutorType){
-        this.commandExecutorType=type;
-    }
+    get name():string{return ""}
+    get commandExecutorType():FMPCommandExecutorType{return FMPCommandExecutorType.Unknown}
+    get displayName():string{return ""};
+    //删除它的构造函数，因为这个东西是不能由插件自行构造的
     /**强制获取玩家，如果执行者不为玩家或玩家已离线则返回undefined */
     asPlayer():FMPPlayer|undefined{
         return undefined

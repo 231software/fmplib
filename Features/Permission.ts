@@ -28,11 +28,11 @@ export class PermissionNode{
     }
 }
 export class FMPPermissible{
-    name:string
+    declare name:string
     hasPermission(nodeNames:string[]):boolean{
         return false
     }
 }
 export class FMPUserGroup extends FMPPermissible{
-    users:Set<string>
+    declare users:Set<string>
 }

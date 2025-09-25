@@ -1,11 +1,9 @@
-import { TwoWayMap } from "../Tools";
+import { FMPTwoWayMap } from "../Tools";
 
 export class FMPDimension{
     name:string
     displayName:string
-    static createDimension(name:string){
-
-    }
+    static createDimension(name:string):void
     /**
      * 通过维度名获取维度实例  
      * 必须通过此方法获得原版维度
@@ -16,7 +14,5 @@ export class FMPDimension{
      * @param name 维度名
      * @returns 维度实例
      */
-    static getDimension(name:string):FMPDimension{
-        return new FMPDimension
-    }
+    static getDimension(name:string):FMPDimension
 }

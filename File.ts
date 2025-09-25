@@ -47,18 +47,17 @@ export class FMPFile{
             await afs.readFile(path)
         }
         catch(e){
-            const newFile=await afs.open(path,"a"/*(e: NodeJS.ErrnoException | null, fd: number):void=>{
-                FMPLogger.info(fd)
-                fs.close(fd,()=>{})
-                if(e)FMPLogger.info("新建文件的过程中，无法关闭文件，错误消息为：\n"+e)
-            }*/)
+            //这里必须先将文件所在的目录初始化出来
+            const dir=new FMPDirectory(path)
+            dir.folders.pop()
+            await FMPFile.initDir(dir.toString(onWindows))
+            const newFile=await afs.open(path,"a")
             //打开文件后必须关闭
             await newFile.close()
         }
     }
     /**
-     * 同步读取并返回文件的全部内容  
-     * 请勿使用此方法读取大文件，否则会导致读取过程中服务器卡顿甚至无响应（假死）
+     * 读取并返回文件的全部内容  
      * @param path 文件路径
      * @returns 文件内容
      */

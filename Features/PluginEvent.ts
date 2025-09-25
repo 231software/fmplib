@@ -21,7 +21,7 @@
  * 如果有简化其他插件监听自己的流程的需求，建议编写一个ts文件，其中使用
  */
 export class FMPPluginEvent{
-    params:Map<string,any>
+    declare params:Map<string,any>
     constructor(eventName:string,providerPluginName:string,params:Map<string,any>){
 
     }

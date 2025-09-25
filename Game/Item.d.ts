@@ -11,13 +11,11 @@ export class FMPItem{
     maxStack:number
     constructor(type:string,count?:number,name?:string)
     constructor(NBT:FMPNBTCompound)
-    constructor(){}
+    //空参构造已删除，因为它不允许被插件调用
     /**
      * 获取物品的NBT标签
      */
-    getNBT():FMPNBTCompound{
-        return new FMPNBTCompound({})
-    }
+    getNBT():FMPNBTCompound
 }
 /**
  * 工具类物品
@@ -25,7 +23,5 @@ export class FMPItem{
 export class FMPToolItem extends FMPItem{
     /**工具的剩余耐久度 */
     damage:number
-    constructor(type:string,count:number=1,name?:string){
-        super(type,count,name)
-    }
+    constructor(type:string,count:number,name?:string)
 }

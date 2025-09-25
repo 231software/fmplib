@@ -1,3 +1,4 @@
+//本文件所需内容由满月平台构建脚本引用
 export let ScriptDone=():boolean|void=>{}
 export class FMPInitEvent{
     constructor(){

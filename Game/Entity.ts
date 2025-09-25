@@ -1,5 +1,3 @@
-import { FMPCommandExecutorType } from "./Command";
-import { FMPEulerAngles, FMPLocation } from "./Location";
 import {FMPPlayer} from "./Player"
 export class FMPEntity{
     constructor(){
@@ -9,7 +7,7 @@ export class FMPEntity{
         return false;
     }
     toPlayer():FMPPlayer{
-        return new FMPPlayer(FMPCommandExecutorType.Player);
+        return new FMPPlayer();
     }
 }
 export enum FMPDamageCause {

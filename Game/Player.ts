@@ -21,7 +21,7 @@ export enum FMPGameMode{
  */
 export class FMPPlayer extends FMPActor{
     /** 玩家在Minecraft基岩版中的xuid */
-    xuid:string;
+    get xuid():string{return ""};
     /** 玩家的游戏模式 */
     get gameMode():FMPGameMode{
         return FMPGameMode.Unknown
