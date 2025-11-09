@@ -13,6 +13,16 @@ export class FMPCommandExecutor{
     get name():string{return ""}
     get commandExecutorType():FMPCommandExecutorType{return FMPCommandExecutorType.Unknown}
     get displayName():string{return ""};
+    /**
+     * 向命令执行者发送成功消息，比如说玩家执行的就向玩家发消息，控制台执行的就在控制台输出日志，命令方块执行的就在命令方块界面显示
+     * @param msg 消息内容
+     */
+    sendSuccess(msg:string){
+
+    }
+    sendError(msg:string){
+        
+    }
     //删除它的构造函数，因为这个东西是不能由插件自行构造的
     /**强制获取玩家，如果执行者不为玩家或玩家已离线则返回undefined */
     asPlayer():FMPPlayer|undefined{
@@ -88,9 +98,11 @@ export enum FMPCommandExecutorType{
 export class FMPCommandResult{
     executor:FMPCommandExecutor
     params:Map<string,{param:FMPCommandParam,value:any}>
-    constructor(executor:FMPCommandExecutor,params:Map<string,{param:FMPCommandParam,value:any}>){
+    command:FMPCommand
+    constructor(executor:FMPCommandExecutor,params:Map<string,{param:FMPCommandParam,value:any}>,command:FMPCommand){
         this.executor=executor
         this.params=params
+        this.command=command
     }
 }
 /**命令执行失败的原因 */
