@@ -32,8 +32,8 @@ export class FMPFile{
                 FMPLogger.info("尝试从上一层文件夹开始创建")
                 const dir=new FMPDirectory(path);
                 dir.folders.pop()//去掉最后一个文件夹
-                FMPFile.initDir(dir.toString(onWindows))//尝试初始化外面一层的文件夹，如果这层失败了，他会递归回到上面那里再去掉一层文件夹
-                FMPFile.initDir(path)
+                await FMPFile.initDir(dir.toString(onWindows))//尝试初始化外面一层的文件夹，如果这层失败了，他会递归回到上面那里再去掉一层文件夹
+                await FMPFile.initDir(path)
             }
         }
     }
@@ -170,7 +170,7 @@ export class FMPFile{
                                 dir.folders.push(file)
                                 const targetDir=new FMPDirectory(destination)
                                 targetDir.folders.push(file)
-                                FMPFile.copy(dir.toString(onWindows),targetDir.toString(onWindows),options)
+                                await FMPFile.copy(dir.toString(onWindows),targetDir.toString(onWindows),options)
                             }                            
                         }
                         catch(e){
@@ -181,9 +181,9 @@ export class FMPFile{
                     //设置了替换文件夹
                     else if(options.replaceFolder==true){
                         //删除目标已存在的文件
-                        FMPFile.permanentlyDelete(destination)
+                        await FMPFile.permanentlyDelete(destination)
                         //再重新移动一遍
-                        FMPFile.copy(source,destination,options)
+                        await FMPFile.copy(source,destination,options)
                         return
                     }
 
@@ -342,16 +342,16 @@ export class FMPFile{
                             dir.folders.push(file)
                             const targetDir=new FMPDirectory(target)
                             targetDir.folders.push(file)
-                            FMPFile.rename(dir.toString(onWindows),targetDir.toString(onWindows),options)
+                            await FMPFile.rename(dir.toString(onWindows),targetDir.toString(onWindows),options)
                         }
                         return
                     }
                     //设置了替换文件夹
                     else if(options.replaceFolder==true){
                         //删除目标已存在的文件
-                        FMPFile.permanentlyDelete(target)
+                        await FMPFile.permanentlyDelete(target)
                         //再重新移动一遍
-                        FMPFile.rename(path,target,options)
+                        await FMPFile.rename(path,target,options)
                         return
                     }
 
@@ -370,8 +370,17 @@ export class FMPFile{
      * @param path 文件或文件夹路径
      */
     static async permanentlyDelete(path:string){
-        //macos此处报错，可能是找不到文件
         try{
+            //这里新增了一个机制，如果去删除不存在的文件，那么直接return
+            //这个access的作用只有检测文件是否存在
+            try{
+                await afs.access(path)
+            }
+            catch(e:any){
+                //文件不存在则跳过
+                if(e.code==="ENOENT")return;
+            }
+            //如果出现了其他的文件权限问题，下面的stat仍会报错，然后报错将被传入插件源码
             const file_stat=await afs.stat(path)
         try{
             if(file_stat.isFile()){
@@ -380,8 +389,8 @@ export class FMPFile{
             }
             else if(file_stat.isDirectory()){
                 //清空文件夹
-                for(let filename of await this.ls(path)){
-                    this.permanentlyDelete(path+"/"+filename);
+                for(let filename of await FMPFile.ls(path)){
+                    await FMPFile.permanentlyDelete(path+"/"+filename);
                 }
                 //删除文件夹
                 if(onWindows)execSync("rd /Q "+new FMPDirectory(path).toString(true))//windows系统要同步删除文件只能调命令行
