@@ -79,6 +79,9 @@ export {
     FMPPlayerChatEvent as PlayerChatEvent
 } from "./Events/Player.js"
 export {
+    FMPCommandEvent as CommandEvent
+} from "./Events/Command.js"
+export {
     FMPTickEvent as TickEvent
 } from "./Events/Server.js"
 export {

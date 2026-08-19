@@ -1,3 +1,4 @@
+import { FMPCommandExecutor } from "../Game/Command";
 import { FMPPlayer } from "../Game/Player";
 export class FMPPlayerJoinEvent{
     player:FMPPlayer
