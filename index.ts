@@ -46,13 +46,15 @@ export {
     FMPCommandEnum as CommandEnum,
     FMPCommandEnumOptions as CommandEnumOptions,
     FMPCommandExecutor as CommandExecutor,
-    FMPCommandExecutorType as CommandExecutorType,
     FMPCommandParam as CommandParam,
     FMPCommandParamDataType as CommandParamDataType,
     FMPCommandParamType as CommandParamType,
     FMPCommandResult as CommandResult,
     FMPruncmd as runcmd
 } from "./Game/Command.js"
+export { FMPActor as Actor } from "./Game/Actor.js"
+export { FMPConsoleExecutor as ConsoleExecutor } from "./Game/ConsoleExecutor.js"
+export { FMPPermissible as Permissible } from "./Features/Permissible.js"
 export {
     FMPSimpleForm as SimpleForm,
     FMPSimpleFormButton as SimpleFormButton,

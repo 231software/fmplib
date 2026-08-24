@@ -1,3 +1,4 @@
+import { FMPPermissible } from "./Permissible.js"
 
 /**
  * ## 权限节点  
@@ -27,12 +28,6 @@ export class PermissionNode{
         this.childNodes.delete(name)
     }
 }
-export class FMPPermissible{
-    declare name:string
-    hasPermission(nodeNames:string[]):boolean{
-        return false
-    }
-}
-export class FMPUserGroup extends FMPPermissible{
-    declare users:Set<string>
+export class FMPUserGroup extends FMPPermissible {
+    declare users: Set<string>
 }

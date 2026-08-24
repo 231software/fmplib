@@ -1,13 +1,21 @@
-import {FMPPlayer} from "./Player"
-export class FMPEntity{
-    constructor(){
+import { FMPActor } from "./Actor.js";
+import { FMPPermissible } from "../Features/Permissible.js";
 
+export class FMPEntity extends FMPActor{
+    constructor(name:string){
+        super(name)
     }
     isPlayer():boolean{
         return false;
     }
-    toPlayer():FMPPlayer{
-        return new FMPPlayer();
+    /**
+     * from转换链：先委派给上层（FMPActor.from）  
+     * 再校验本层类型，实体无真转换，仅做instanceof校验  
+     * 实体转玩家请使用 FMPPlayer.from
+     */
+    static from(source:FMPPermissible):FMPEntity|undefined{
+        const upper=FMPActor.from(source)
+        return upper instanceof FMPEntity?upper:undefined
     }
 }
 export enum FMPDamageCause {

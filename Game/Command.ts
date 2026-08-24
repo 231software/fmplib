@@ -1,5 +1,4 @@
-import { FMPEntity } from "./Entity";
-import { FMPPlayer } from "./Player";
+import { FMPPermissible } from "../Features/Permissible.js";
 
 export interface FMPCommandRegisterPositions{
     console?:boolean
@@ -7,29 +6,26 @@ export interface FMPCommandRegisterPositions{
     operator?:boolean
     anyPlayer?:boolean
 }
-//第二步：大改命令部分
-//加入子命令
-export class FMPCommandExecutor{
-    get name():string{return ""}
-    get commandExecutorType():FMPCommandExecutorType{return FMPCommandExecutorType.Unknown}
-    get displayName():string{return ""};
+export abstract class FMPCommandExecutor extends FMPPermissible{
+    readonly name:string
+    readonly displayName:string
+    protected constructor(name:string){
+        super()
+        this.name=name
+        this.displayName=name
+    }
     /**
      * 向命令执行者发送成功消息，比如说玩家执行的就向玩家发消息，控制台执行的就在控制台输出日志，命令方块执行的就在命令方块界面显示
      * @param msg 消息内容
      */
-    sendSuccess(msg:string){
-
-    }
-    sendError(msg:string){
-        
-    }
-    //删除它的构造函数，因为这个东西是不能由插件自行构造的
-    /**强制获取玩家，如果执行者不为玩家或玩家已离线则返回undefined */
-    asPlayer():FMPPlayer|undefined{
-        return undefined
-    }
-    asEntity():FMPEntity|undefined{
-        return undefined
+    abstract sendSuccess(msg:string):void
+    abstract sendError(msg:string):void
+    /**
+     * from转换链的最底层，只接受本身就是FMPCommandExecutor的实例  
+     * 子类的from方法会逐级委派，最终汇聚到这里
+     */
+    static from(source:FMPPermissible):FMPCommandExecutor|undefined{
+        return source instanceof FMPCommandExecutor?source:undefined
     }
 }
 export enum FMPCommandParamType{
@@ -87,13 +83,6 @@ export class FMPCommandParam{
         this.bindEnum=bindEnum;
         this.enumOptions=enumOptions;
     }
-}
-export enum FMPCommandExecutorType{
-    Player=0,
-    Entity,
-    Console,
-    CommandBlock,
-    Unknown
 }
 export class FMPCommandResult{
     executor:FMPCommandExecutor

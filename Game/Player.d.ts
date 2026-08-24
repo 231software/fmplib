@@ -1,7 +1,8 @@
 import { FMPEulerAngles, FMPLocation } from "./Location";
 import {FMPItem} from "./Item.js"
 import { FMPInventory, FMPPlayerInventory } from "./Container.js";
-import { FMPActor } from "./Actor.js";
+import { FMPEntity } from "./Entity.js";
+import { FMPPermissible } from "../Features/Permissible.js";
 import { EulerAngles } from "../index.js";
 /**
  * FMP定义的游戏模式  
@@ -19,7 +20,13 @@ export enum FMPGameMode{
  * FMP定义的玩家  
  * 由于平台不同，不能在不对运行环境做任何限制的前提下假定此为Minecraft中的玩家
  */
-export class FMPPlayer extends FMPActor{
+export class FMPPlayer extends FMPEntity{
+    /**
+     * from转换链的顶端：先委派给上层（FMPEntity.from）  
+     * 平台实现会在此处加入实体转玩家的真转换（如isPlayer钩子）  
+     * 空壳仅声明签名，无真转换
+     */
+    static from(source:FMPPermissible):FMPPlayer|undefined
     /** 玩家在Minecraft基岩版中的xuid */
     get xuid():string
     /** 玩家的游戏模式 */
