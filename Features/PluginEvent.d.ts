@@ -1,3 +1,5 @@
+
+export type FMPPluginEventErrorCode="IPC_ERROR"|'PLUGIN_OFFLINE'
 /**
  * 插件自定义事件，可供其他插件监听。   
  * **注意：此类代表事件发生时的一次事件，如果要注册事件，请使用代表着事件处理器的PluginEventHandler类**   
@@ -22,9 +24,7 @@
  */
 export class FMPPluginEvent{
     declare params:Map<string,any>
-    constructor(eventName:string,providerPluginName:string,params:Map<string,any>){
-
-    }
+    constructor(eventName:string,providerPluginName:string,params:Map<string,any>)
     /**
      * 注册一个来自其他插件的事件  
      * 由事件的监听方调用  
@@ -34,9 +34,7 @@ export class FMPPluginEvent{
      * @param pluginName 事件所属插件的插件名
      * @param priority 优先级，范围0-1，默认0.5，数字越大优先级越高
      */
-    static on(callback:(event:FMPPluginEvent)=>boolean|void,eventName:string,pluginName:string,priority = 0.5){
-        
-    }
+    static on(callback:(event:FMPPluginEvent)=>boolean|void,eventName:string,pluginName:string):void
 }
 
 
@@ -46,21 +44,18 @@ export class FMPPluginEventHandler{
      * 由事件的提供方调用  
      * @param eventName 事件名
      */
-    constructor(eventName:string){
-
-    }
-    trigger(params:Map<string,any>){
-
-    }
+    constructor(eventName:string)
+    /**
+     * 触发这个事件，如果触发器返回了false证明有插件对事件进行了拦截
+     * @param params 传入的参数
+     */
+    trigger(params:Map<string,any>):boolean
 }
 
 export class FMPPluginEventError extends Error{
     code:string
-    name="PluginEventError"
-    constructor(msg:string,code:string){
-        super(msg)
-        this.code=code
-    }
+    name:FMPPluginEventErrorCode
+    constructor(msg:string,code:FMPPluginEventErrorCode)
 }
 
 /**
@@ -68,15 +63,11 @@ export class FMPPluginEventError extends Error{
  * @param funcName 函数名
  * @param func 插件内的函数本体
  */
-export function regPluginFunc(funcName:string,func:(...params:any[])=>any){
-    
-}
+export function regPluginFunc(funcName:string,func:(...params:any[])=>any):void
 /**
  * 导入其他插件的对外函数
  * @param pluginName 函数所属插件名
  * @param funcName 函数名
  * @returns 函数的返回值
  */
-export function getPluginFunc(pluginName:string,funcName:string):(...params:any[])=>any{
-    return ()=>{}
-}
+export function getPluginFunc(pluginName:string,funcName:string):(...params:any[])=>any|undefined
