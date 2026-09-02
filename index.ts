@@ -154,4 +154,9 @@ export {
     HTTPServer,
     HTTPContentType
 } from "./http.js"
+export {
+    FMPTCPSocket as TCPSocket,
+    FMPTCPServer as TCPServer,
+    TCPConnect
+} from "./tcp.js"
 export {ScriptDone} from "./Events/Process.js"
