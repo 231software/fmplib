@@ -63,7 +63,7 @@ export class FMPPluginEventError extends Error{
  * @param funcName 函数名
  * @param func 插件内的函数本体
  */
-export function regPluginFunc(funcName:string,func:(...params:any[])=>any):void
+export function regPluginFunc(funcName:string,func:(...params:any[])=>any):boolean
 /**
  * 导入其他插件的对外函数
  * @param pluginName 函数所属插件名
