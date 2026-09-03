@@ -1,4 +1,5 @@
 import { FMPCommandExecutor } from "../Game/Command";
+import { FMPItem } from "../Game/Item";
 import { FMPPlayer } from "../Game/Player";
 export class FMPPlayerJoinEvent{
     player:FMPPlayer
@@ -13,4 +14,9 @@ export class FMPPlayerChatEvent{
     player:FMPPlayer
     msg:string
     static on(callback:(event:FMPPlayerChatEvent)=>boolean|void):void
+}
+export class FMPPlayerDropItemEvent{
+    player:FMPPlayer
+    item:FMPItem
+    static on(callback:(event:FMPPlayerDropItemEvent)=>boolean|void):void
 }

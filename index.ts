@@ -78,7 +78,8 @@ export {
 export {
     FMPPlayerToggleSneakEvent as PlayerToggleSneakEvent,
     FMPPlayerJoinEvent as PlayerJoinEvent,
-    FMPPlayerChatEvent as PlayerChatEvent
+    FMPPlayerChatEvent as PlayerChatEvent,
+    FMPPlayerDropItemEvent as PlayerDropItemEvent
 } from "./Events/Player.js"
 export {
     FMPCommandEvent as CommandEvent
