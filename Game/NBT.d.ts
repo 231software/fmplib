@@ -34,7 +34,7 @@ export class FMPNBTCompound extends FMPNBTObjectLike{
     delete(tagName:string):void
     toObject():any
     toSNBT():string
-
+    static fromSNBT(snbt:string):FMPNBTCompound
 }
 export abstract class FMPNBTBasicType{
 }
