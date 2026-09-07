@@ -20,3 +20,8 @@ export class FMPPlayerDropItemEvent{
     item:FMPItem
     static on(callback:(event:FMPPlayerDropItemEvent)=>boolean|void):void
 }
+export class FMPPlayerUseItemEvent{
+    player:FMPPlayer
+    item:FMPItem
+    static on(callback:(event:FMPPlayerUseItemEvent)=>boolean|void):void
+}
