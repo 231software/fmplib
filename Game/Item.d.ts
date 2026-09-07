@@ -15,7 +15,8 @@ export class FMPItem{
     /**
      * 获取物品的NBT标签
      */
-    getNBT():FMPNBTCompound
+    getNBT():FMPNBTCompound|undefined
+    delete():boolean
 }
 /**
  * 工具类物品
